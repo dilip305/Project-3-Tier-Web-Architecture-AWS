@@ -54,4 +54,12 @@ We will need six subnets across two availability zones. That means that three su
 - Slecte VPC
 - Attach Internet Gateway
 
+### $\color{blue} \textbf{Create \textbf NAT Gateway }$
+
+- Name: NAT-GW-AZ1
+- Availability mode: Zonal
+- Subnet: Public-Web-Subnet-AZ-1
+- Allocate Elastic IP
+- Create
+
  

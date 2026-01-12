@@ -14,6 +14,7 @@
 * Security Groups
 * RDS
 * Subnet groups
+* Databases
 
 ### $\color{blue} \textbf{Create \textbf S3 }$
 
@@ -148,4 +149,29 @@ five Security group creating for this project
 
 <img width="1920" height="912" alt="Screenshot (153)" src="https://github.com/user-attachments/assets/98347ba5-5116-4637-9bd6-04ac4bf82498" />
 
+
+ ### $\color{blue} \textbf{Create \textbf Databases }$
+
+  - Choose a database creation method: Full configuration
+  - Engine type: Aurora (MySQL Compatible)
+  - Templates: Dev/Test
+  - DB cluster identifier: database-1
+  - Master username: admin
+  - Credentials management: Self managed
+  - set password: ***********
+  - Availability & durability: Create an Aurora Replica or Reader node in a different AZ (recommended for scaled availability)
+    
+  <h4>Connectivity </h4>
+  
+  - Compute resource: Don’t connect to an EC2 compute resource
+  - Virtual private cloud (VPC): 3 tier (custom vpc)
+  - DB subnet group: three-tier-db-subnet-group
+  - Public access: No
+  - VPC security group (firewall)
+  - Choose existing
+  - Existing VPC security groups: DBSG
+  - create database
+  
+  
+  
 

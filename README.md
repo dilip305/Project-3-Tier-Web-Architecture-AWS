@@ -95,3 +95,41 @@ Attach 2 subnet in Public Route Table
 
 Attach subnet in Private Route Table
 - Available subnets: Private-App-Subnet-AZ-2
+
+### $\color{blue} \textbf{Create \textbf Security Groups }$
+
+five Security group creating for this project
+
+1.The first security group you’ll create is for the public, internet facing load balancer. After typing a name and description, add an inbound rule to allow HTTP type traffic for your IP.
+
+<img width="1920" height="913" alt="Screenshot (146)" src="https://github.com/user-attachments/assets/a4090729-196a-4c6e-b3f3-84744c1d8c0c" />
+
+
+
+2. The second security group you’ll create is for the public instances in the web tier. After typing a name and description, add an inbound rule that allows HTTP type traffic from your internet facing load balancer security group you created in the previous step. This will allow traffic from your public facing load balancer to hit your instances. Then, add an additional rule that will allow HTTP type traffic for your IP. This will allow you to access your instance when we test.
+
+<img width="1920" height="870" alt="Screenshot (147)" src="https://github.com/user-attachments/assets/10359934-a551-42e9-8a61-a1b9baca4785" />
+
+
+
+3. The third security group will be for our internal load balancer. Create this new security group and add an inbound rule that allows HTTP type traffic from your public instance security group. This will allow traffic from your web tier instances to hit your internal load balancer.
+
+
+<img width="1920" height="905" alt="Screenshot (148)" src="https://github.com/user-attachments/assets/f4587a4e-5d73-4817-8b7c-13bf6da1f9b9" />
+
+
+4. The fourth security group we’ll configure is for our private instances. After typing a name and description, add an inbound rule that will allow TCP type traffic on port 4000 from the internal load balancer security group you created in the previous step. This is the port our app tier application is running on and allows our internal load balancer to forward traffic on this port to our private instances. You should also add another route for port 4000 that allows your IP for testing.
+
+
+<img width="1920" height="908" alt="Screenshot (149)" src="https://github.com/user-attachments/assets/cf5f4eeb-bb87-4ecd-a411-a07d6e1ddb92" />
+
+
+5. The fifth security group we’ll configure protects our private database instances. For this security group, add an inbound rule that will allow traffic from the private instance security group to the MYSQL/Aurora port (3306).
+
+
+<img width="1920" height="904" alt="Screenshot (150)" src="https://github.com/user-attachments/assets/a2814228-4318-4da6-8689-7a01d324e2d5" />
+
+
+- last final view for the security group
+
+<img width="1920" height="909" alt="Screenshot (151)" src="https://github.com/user-attachments/assets/9ced0aeb-e2ae-4c90-82bb-cd4dcb697af1" />

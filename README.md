@@ -62,4 +62,10 @@ We will need six subnets across two availability zones. That means that three su
 - Allocate Elastic IP
 - Create
 
- 
+ ### $\color{blue} \textbf{Create \textbf Route Tables }$
+
+ - Name: PublicRouteTable
+ - VPC: vpc-07af23475dacb4dbd 3tier
+ - Create
+
+

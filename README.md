@@ -12,6 +12,8 @@
 * Internet Gateway
 * NAT gateway
 * Security Groups
+* RDS
+* Subnet groups
 
 ### $\color{blue} \textbf{Create \textbf S3 }$
 
@@ -133,3 +135,17 @@ five Security group creating for this project
 - last final view for the security group
 
 <img width="1920" height="909" alt="Screenshot (151)" src="https://github.com/user-attachments/assets/9ced0aeb-e2ae-4c90-82bb-cd4dcb697af1" />
+
+### $\color{blue} \textbf{Subnet \textbf groups }$
+
+<h3>Create DB subnet group</h3>
+
+- Give your subnet group a name, description, and choose the VPC we created.
+
+<img width="1920" height="675" alt="Screenshot (152)" src="https://github.com/user-attachments/assets/71b994f1-acb3-4433-843d-aa338c9f5a07" />
+
+- When adding subnets, make sure to add the subnets we created in each availability zone specificaly for our database layer. You may have to navigate back to the VPC dashboard and check to make sure you're selecting the correct subnet IDs.
+
+<img width="1920" height="912" alt="Screenshot (153)" src="https://github.com/user-attachments/assets/98347ba5-5116-4637-9bd6-04ac4bf82498" />
+
+

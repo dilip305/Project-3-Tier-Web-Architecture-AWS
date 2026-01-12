@@ -27,3 +27,31 @@
 - Add permissions: 1. AmazonSSMManagedInstanceCore.
                    2. AmazonS3ReadOnlyAccess
 - Create
+
+### $\color{blue} \textbf{Create \textbf VPC }$
+
+- Name: 3tier
+- IPv4CIDR: 10.0.0.0/16
+- create
+
+### $\color{blue} \textbf{Create \textbf Subnet }$
+
+- VPC ID: vpc-07af23475dacb4dbd | 3tier
+- Subnet name: Public-Web-Subnet-AZ-1
+- Availability Zone: aps1-az1 (ap-south-1a)
+- IPv4 CIDR: 10.0.0.0/24
+- Create subnet
+
+We will need six subnets across two availability zones. That means that three subnets will be in one availability zone, and three subnets will be in another zone. Each subnet in one availability zone will correspond to one layer of our three tier architecture. Create each of the 6 subnets by specifying the VPC we created and then choose a name, availability zone, and appropriate CIDR range for each of the subnets.
+
+<img width="1920" height="912" alt="Screenshot (140)" src="https://github.com/user-attachments/assets/7f64e6ac-8bfe-46d2-bb84-42b601f594b2" />
+
+### $\color{blue} \textbf{Create \textbf Internet Gateway }$
+
+- Name: three-tier-igw
+- create
+- Attach to VPC
+- Slecte VPC
+- Attach Internet Gateway
+
+ 

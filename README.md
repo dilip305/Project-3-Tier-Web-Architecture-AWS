@@ -60,6 +60,7 @@ We will need six subnets across two availability zones. That means that three su
 ### $\color{blue} \textbf{Create \textbf NAT Gateway }$
 
 Two nat gateway create 
+
 1)
 - Name: NAT-GW-AZ1
 - Availability mode: Zonal
@@ -110,10 +111,6 @@ Attach 2 subnet in Public Route Table
 
 Attach subnet in Private Route Table
 - Available subnets: Private-App-Subnet-AZ-1
-
- Name: Private-RT-AZ1
-- VPC: vpc-07af23475dacb4dbd 3tier
-- Create
 
 2.
 

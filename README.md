@@ -222,5 +222,31 @@ five Security group creating for this project
     - IAM instance profile: demo-ec2role
     - Launch Instance
 
-  
+   <h2>Configure Database</h2>
+
+   - sudo dnf install mariadb105 -y
+
+   Initiate your DB connection with your Aurora RDS writer endpoint. In the following command, replace the RDS writer endpoint and the username, and then execute it in the browser terminal:
+
+   - mysql -h CHANGE-TO-YOUR-RDS-ENDPOINT -u CHANGE-TO-USER -p
+
+   - CREATE DATABASE webappdb;
+
+   - SHOW DATABASES;
+
+   - USE webappdb;
+
+   - CREATE TABLE IF NOT EXISTS transactions(id INT NOT NULL
+      AUTO_INCREMENT, amount DECIMAL(10,2), description
+      VARCHAR(100), PRIMARY KEY(id));
+     
+
+
+  - SHOW TABLES;
+
+  - INSERT INTO transactions (amount,description) VALUES ('500','English');
+
+  - SELECT * FROM transactions;
+
+  - exit
 

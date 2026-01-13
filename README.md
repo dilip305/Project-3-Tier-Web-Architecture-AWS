@@ -15,6 +15,7 @@
 * RDS
 * Subnet groups
 * Databases
+* EC2
 
 ### $\color{blue} \textbf{Create \textbf S3 }$
 
@@ -203,6 +204,23 @@ five Security group creating for this project
   - create database
   
   <img width="1920" height="909" alt="Screenshot (158)" src="https://github.com/user-attachments/assets/116c0d0f-50c2-436e-a3bd-73fcd0cf083f" />
+
+  <h3>Instance</h3>
+
+  - Name: App layer
+  - O.S: Amazon linux
+  - Amazon Machine Image (AMI): Amazon linux 2023 kernel-6.1 AMI
+  - Instance type: t2.micro
+  - Key pair: proceed without a key pair (not recommended)
+  - VPC: vpc-07af23475dacb4dbd 3tier
+  - Subnet: Private-App-Subnet-AZ-1
+  - Auto-assign public IP: Disable
+  - security groups: Select existing security group -> privateinstanceSG
+
+    <h5>Advanced details </h5>
+
+    - IAM instance profile: demo-ec2role
+    - Launch Instance
 
   
 

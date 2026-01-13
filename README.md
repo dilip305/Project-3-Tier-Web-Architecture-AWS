@@ -59,11 +59,21 @@ We will need six subnets across two availability zones. That means that three su
 
 ### $\color{blue} \textbf{Create \textbf NAT Gateway }$
 
+Two nat gateway create 
+1)
 - Name: NAT-GW-AZ1
 - Availability mode: Zonal
 - Subnet: Public-Web-Subnet-AZ-1
 - Allocate Elastic IP
 - Create
+
+2)
+- Name: NAT-GW-AZ2
+- Availability mode: Zonal
+- Subnet: Public-Web-Subnet-AZ-2
+- Allocate Elastic IP
+- Create
+
 
  ### $\color{blue} \textbf{Create \textbf Route Tables }$
 
@@ -82,7 +92,9 @@ We will need six subnets across two availability zones. That means that three su
 Attach 2 subnet in Public Route Table
 - Available subnets: 1) Public-Web-Subnet-AZ-1. 2) Public-Web-Subnet-AZ-2
 
-<h2>Private Route Table</h2>
+<h2>Create tow Private Route Table</h2>
+
+1.
 
 - Name: Private-RT-AZ1
 - VPC: vpc-07af23475dacb4dbd 3tier
@@ -91,7 +103,28 @@ Attach 2 subnet in Public Route Table
 <h2>Edit routes</h2>
 
 - Add route: 0.0.0.0/0
-- Target: NAT Gateway
+- Target: NAT Gateway- NAT-GW-AZ1
+- Save
+
+<h2>Edit subnet associations</h2>
+
+Attach subnet in Private Route Table
+- Available subnets: Private-App-Subnet-AZ-1
+
+ Name: Private-RT-AZ1
+- VPC: vpc-07af23475dacb4dbd 3tier
+- Create
+
+2.
+
+- Name: Private-RT-AZ2
+- VPC: vpc-07af23475dacb4dbd 3tier
+- Create
+
+<h2>Edit routes</h2>
+
+- Add route: 0.0.0.0/0
+- Target: NAT Gateway- NAT-GW-AZ2
 - Save
 
 <h2>Edit subnet associations</h2>

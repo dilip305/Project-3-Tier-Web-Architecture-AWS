@@ -204,29 +204,173 @@ five Security group creating for this project
 
 <h2>Configure Database</h2>
 
-   - sudo dnf install mariadb105 -y
+  ```bash
+  sudo dnf install mariadb105 -y
+
+  ```
 
    Initiate your DB connection with your Aurora RDS writer endpoint. In the following command, replace the RDS writer endpoint and the username, and then execute it in the browser terminal:
 
+  ```bash
    - mysql -h CHANGE-TO-YOUR-RDS-ENDPOINT -u CHANGE-TO-USER -p
+   ```
 
+  ```bash
    - CREATE DATABASE webappdb;
+  ```
 
+  ```bash
    - SHOW DATABASES;
+  ```
 
+  ```bash
    - USE webappdb;
+  ```
 
+  ```bash
    - CREATE TABLE IF NOT EXISTS transactions(id INT NOT NULL
       AUTO_INCREMENT, amount DECIMAL(10,2), description
       VARCHAR(100), PRIMARY KEY(id));
-     
+  ```   
 
-
+  ```bash
   - SHOW TABLES;
+  ```
 
+  ```bash
   - INSERT INTO transactions (amount,description) VALUES ('500','English');
+  ```
 
+  ```bash
   - SELECT * FROM transactions;
+  ```
 
+  ```bash
   - exit
+  ```
+
+# Update Database Credentials and Upload App Tier to S3
+
+This document explains how to update the database configuration for the app tier and upload it to an Amazon S3 bucket.
+
+---
+
+## Step 1: Update Database Credentials for the App Tier
+
+First, update the database credentials for the app tier.
+
+Open the following file from the GitHub repository in your preferred text editor:
+
+application-code/app-tier/DbConfig.js
+
+In this file, you will see empty values for the following fields:
+
+- Hostname  
+- Username  
+- Password  
+- Database name  
+
+Update these fields with the following values:
+
+- **Hostname**: Writer endpoint of your RDS database  
+- **Username**: Your database username  
+- **Password**: Your database password  
+- **Database name**: `webappdb`  
+
+Save the file after updating the credentials.
+
+---
+
+## Step 2: Replace the Existing DbConfig.js File
+
+Inside the `app-tier` folder, a `DbConfig.js` file already exists.
+
+- Delete the existing `DbConfig.js` file from the `app-tier` folder.
+- Move the updated `DbConfig.js` file into the `app-tier` folder.
+- Ensure that only **one updated `DbConfig.js` file** exists inside the `app-tier` folder.
+
+---
+
+## Step 3: Upload the app-tier Folder to the S3 Bucket
+
+Upload the **entire `app-tier` folder**, including the updated `DbConfig.js` file, to the S3 bucket you created.
+
+>  **Note**  
+> If `DbConfig.js` was uploaded separately to S3, move it into the `app-tier` folder before uploading.  
+> Do **not** upload or keep `DbConfig.js` as a separate file in S3.
+
+
+### $\color{blue} \textbf{Configure App \textbf Instance }$
+
+- Go back to your SSM session. Now we need to install all of the necessary components to run our backend application. Start by installing NVM (node version manager).
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+source ~/.bashrc
+```
+
+```bash
+nvm install 16
+nvm use 16
+```
+
+```bash
+npm install -g pm2
+```
+
+- Now we need to download our code from our s3 buckets onto our instance. In the command below, replace BUCKET_NAME with the name of the bucket you uploaded the app-tier folder to:
+
+```bash
+cd ~/
+aws s3 cp s3://BUCKET_NAME/app-tier/ app-tier --recursive
+```
+
+```bash
+cd ~/app-tier
+npm install
+pm2 start index.js
+```
+
+```bash
+pm2 list
+```
+- If you see a status of online, the app is running. If you see errored, then you need to do some troubleshooting. To look at the latest errors, use this command:
+  
+```bash
+pm2 logs
+```
+
+```bash
+pm2 startup
+```
+
+- After running this you will see a message similar to this.
+  
+- sudo env PATH=$PATH:/home/ec2-user/.nvm/versions/node/v16.0.0/bin /home/ec2-user/.nvm/versions/node/v16.0.0/lib/node_modules/pm2/bin/pm2 startup systemd -u ec2-user —hp /home/ec2-user
+
+```bash
+pm2 save
+```
+
+### $\color{blue} \textbf{ Test App\textbf Tier }$
+
+
+- To hit out health check endpoint, copy this command into your SSM terminal. This is our simple health check endpoint that tells us if the app is simply running
+
+```bash
+curl http://localhost:4000/health
+```
+
+- The response should looks like the following:   "This is the health check"
+
+- Next, test your database connection. You can do that by hitting the following endpoint locally:
+
+```bash
+curl http://localhost:4000/transaction
+```
+
+- You should see a response containing the test data we added earlier:      {"result":[{"id":1,"amount":400,"description":"groceries"},{"id":2,"amount":100,"description":"class"},{"id":3,"amount":200,"description":"other groceries"},{"id":4,"amount":10,"description":"brownies"}]}
+
+
+- Your app layer is fully configured and ready to go.
   

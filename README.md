@@ -140,7 +140,7 @@ five Security group creating for this project
 
 ### $\color{blue} \textbf{Subnet \textbf groups }$
 
-<h3>Create DB subnet group</h3>
+<h4>Create DB subnet group</h4>
 
 - Give your subnet group a name, description, and choose the VPC we created.
 
@@ -176,7 +176,7 @@ five Security group creating for this project
   <img width="1920" height="909" alt="Screenshot (158)" src="https://github.com/user-attachments/assets/116c0d0f-50c2-436e-a3bd-73fcd0cf083f" />
 
 
- <h2>Instance</h2>
+ <h4>Instance</h4>
  
 - Name: App layer
 
@@ -199,7 +199,7 @@ five Security group creating for this project
 <h3>Advanced details</h3>
 
 - IAM instance profile: demo-ec2role
-- Launch Instance
+- Launch Instance and connect with Session Manager
 
 
 <h2>Configure Database</h2>

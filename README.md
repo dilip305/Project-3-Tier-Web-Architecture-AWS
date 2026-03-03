@@ -393,7 +393,8 @@ curl http://localhost:4000/transaction
 
 - We are NOT going to register any targets for now, so just skip that step and create the target group.
 
-  <img width="1920" height="1080" alt="Screenshot (167)" src="https://github.com/user-attachments/assets/7b7adbc0-cf1d-4beb-9835-fa4c4ad9eb4c" />
+  <img width="1920" height="962" alt="Screenshot (167)" src="https://github.com/user-attachments/assets/815ef6e2-a7fc-452e-a4fb-01c72534379e" />
+
 
 - Create a Launch Template
 - Configure Autoscaling

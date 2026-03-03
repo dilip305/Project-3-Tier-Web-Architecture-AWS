@@ -396,7 +396,29 @@ curl http://localhost:4000/transaction
   <img width="1920" height="962" alt="Screenshot (167)" src="https://github.com/user-attachments/assets/815ef6e2-a7fc-452e-a4fb-01c72534379e" />
 
 
-- Create a Launch Template
-- Configure Autoscaling
-- Deploy Internal Load Balancer
+## Create a Launch Template
 
+- Before we configure Auto Scaling, we need to create a Launch template with the AMI we created earlier.
+
+- Name the Launch Template, and then under Application and OS Images include the app tier AMI you created.
+
+- Under Instance Type select t2.micro. For Key pair and Network Settings don't include it in the template. We don't need a key pair to access our instances and we'll be setting the network information in the autoscaling group.
+
+- Set the correct security group for our app tier,(SG= PrivateInstanceSG) and then under Advanced details use the same IAM instance profile we have been using for our EC2 instances.
+
+- Set the correct security group for our app tier, and then under Advanced details use the same IAM instance profile we have been using for our EC2 instances.
+
+## Configure Autoscaling
+
+- We will now create the Auto Scaling Group for our app instances.
+
+- Give your Auto Scaling group a name, and then select the Launch Template we just created and click next.
+
+- On the Choose instance launch options page set your VPC, and the private instance subnets for the app tier
+- use: 1) Private-App-Subnet-AZ-1. 2)Private-App-Subnet-AZ-1
+
+- attach this Auto Scaling Group to the Load Balancer we just created by selecting the existing load balancer's target group from the dropdown. Then, click next.
+ 
+- For Configure group size and scaling policies, set desired, minimum and maximum capacity to 2. Click skip to review and then Create Auto Scaling Group.
+
+- You should now have your internal load balancer and autoscaling group configured correctly. You should see the autoscaling group spinning up 2 new app tier instances. If you wanted to test if this is working correctly, you can delete one of your new instances manually and wait to see if a new instance is booted up to replace it.

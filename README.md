@@ -538,8 +538,7 @@ sudo chkconfig nginx on
 
 - We are NOT going to register any targets for now, so just skip that step and create the target group.
 
-<img width="1920" height="1080" alt="Screenshot (171)" src="https://github.com/user-attachments/assets/6a7df47c-a1a9-4e6a-8147-e3cb2493bd82" />
-
+<img width="1920" height="969" alt="Screenshot (171)" src="https://github.com/user-attachments/assets/45b45d6f-19e8-434f-b721-c8cff4a5a9f2" />
 
 ## Internet Facing Load Balancer
 

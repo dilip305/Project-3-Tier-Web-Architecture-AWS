@@ -449,4 +449,143 @@ sudo -su ec2-user
 ping 8.8.8.8
 ```
 
+## Configure Web Instance
+
+- We now need to install all of the necessary components needed to run our front-end application. Again, start by installing NVM and node :
+
+ ```bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+ ```
+
+ ```bash
+source ~/.bashrc
+ ```
+
+ ```bash
+nvm install 16
+ ```
+
+```bash
+nvm use 16
+ ```
+
+- Now we need to download our web tier code from our s3 bucket:
+
+```bash
+cd ~/
+aws s3 cp s3://BUCKET_NAME/web-tier/ web-tier --recursive
+```
+
+- Navigate to the web-layer folder and create the build folder for the react app so we can serve our code:
+
+```bash
+cd ~/web-tier
+npm install 
+npm run build
+```
+
+- NGINX can be used for different use cases like load balancing, content caching etc, but we will be using it as a web server that we will configure to serve our application on port 80, as well as help direct our API calls to the internal load balancer.
+
+```bash
+sudo dnf install nginx -y
+```
+
+- We will now have to configure NGINX. Navigate to the Nginx configuration file with the following commands and list the files in the directory:
+
+```bash
+cd /etc/nginx
+ls
+```
+
+- You should see an nginx.conf file. We’re going to delete this file and use the one we uploaded to s3. Replace the bucket name in the command below with the one you created for this workshop:
+
+```bash
+sudo rm nginx.conf
+sudo aws s3 cp s3://BUCKET_NAME/nginx.conf .
+```
+
+```bash
+sudo service nginx restart
+```
+
+- To make sure Nginx has permission to access our files execute this command:
+
+```bash
+chmod -R 755 /home/ec2-user
+```
+
+- And then to make sure the service starts on boot, run this command:
+
+```bash
+sudo chkconfig nginx on
+```
+
+### $\color{blue} \textbf{External Load Balancer and \textbf Auto Scaling }$
+
+## Web Tier AMI
+
+- Create Image
+
+- Give the image a name and description and then click Create image.
+
+## Target Group
+
+- While the AMI is being created, we can go ahead and create our target group to use with the load balancer.
+
+- The purpose of forming this target group is to use with our load blancer so it may balance traffic across our public web tier instances. Select Instances as the target type and give it a name.
+
+- Then, set the protocol to HTTP and the port to 80. Remember this is the port NGINX is listening on. Select the VPC we've been using thus far, and then change the health check path to be /healt
+
+- We are NOT going to register any targets for now, so just skip that step and create the target group.
+
+<img width="1920" height="1080" alt="Screenshot (171)" src="https://github.com/user-attachments/assets/6a7df47c-a1a9-4e6a-8147-e3cb2493bd82" />
+
+
+## Internet Facing Load Balancer
+
+- We'll be using an Application Load Balancer for our HTTP traffic so click the create button for that option.
+
+- After giving the load balancer a name, be sure to select internet facing since this one will not be public facing, but rather it will route traffic from our web tier to the app tier.
+
+- Select the correct network configuration for VPC and public subnets
+- use= 1) Public-Web-Subnet-AZ-1. 2) Public-Web-Subnet-AZ-2.
+
+- Select the security group we created for this internal ALB (SG = internet-facing-lb-sg). Now, this ALB will be listening for HTTP traffic on port 80. It will be forwarding the traffic to our target group that we just created, so select it from the dropdown, and create the load balancer.
+
+<img width="1920" height="916" alt="Screenshot (173)" src="https://github.com/user-attachments/assets/f7a52ba2-47c7-4f69-8d3f-a5bb6398d270" />
+
+
+## Launch Template
+
+- Before we configure Auto Scaling, we need to create a Launch template with the AMI we created earlier.
+
+- Name the Launch Template, and then under Application and OS Images include the app tier AMI you created.
+
+- Under Instance Type select t2.micro. For Key pair and Network Settings don't include it in the template. We don't need a key pair to access our instances and we'll be setting the network information in the autoscaling group.
+
+- Set the correct security group for our web tier, (SG= WebTierSG) and then under Advanced details use the same IAM instance profile we have been using for our EC2 instances.
+
+<img width="1920" height="913" alt="Screenshot (172)" src="https://github.com/user-attachments/assets/32caa5da-d533-467b-becd-d06eb677a346" />
+
+
+## Auto Scaling
+
+- We will now create the Auto Scaling Group for our web instances
+
+- Give your Auto Scaling group a name, and then select the Launch Template we just created and click next.
+
+- On the Choose instance launch options page set your VPC, and the public subnets for the web tier
+
+-  attach this Auto Scaling Group to the Load Balancer we just created by selecting the existing web tier load balancer's target group from the dropdown. Then, click next.
+
+-  For Configure group size and scaling policies, set desired, minimum and maximum capacity to 2. Click skip to review and then Create Auto Scaling Group.
+
+  <img width="1920" height="945" alt="Screenshot (174)" src="https://github.com/user-attachments/assets/08691c8e-837e-4122-800e-ba018b74c623" />
+
+
+-  You should now have your external load balancer and autoscaling group configured correctly. You should see the autoscaling group spinning up 2 new web tier instances. If you wanted to test if this is working correctly, you can delete one of your new instances manually and wait to see if a new instance is booted up to replace it. To test if your entire architecture is working, navigate to your external facing loadbalancer, and plug in the DNS name into your browser.
+
+<img width="1920" height="1080" alt="Screenshot (175)" src="https://github.com/user-attachments/assets/71929ec4-6ca2-4a14-900d-fde08c4ba8e4" />
+<img width="1920" height="968" alt="Screenshot (176)" src="https://github.com/user-attachments/assets/237fb31b-3354-4dcf-8539-9d490cecf996" />
+
 

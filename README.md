@@ -422,3 +422,31 @@ curl http://localhost:4000/transaction
 - For Configure group size and scaling policies, set desired, minimum and maximum capacity to 2. Click skip to review and then Create Auto Scaling Group.
 
 - You should now have your internal load balancer and autoscaling group configured correctly. You should see the autoscaling group spinning up 2 new app tier instances. If you wanted to test if this is working correctly, you can delete one of your new instances manually and wait to see if a new instance is booted up to replace it.
+
+### $\color{blue} \textbf{ Web Tier Instance \textbf Deployment }$
+
+- Before we create and configure the web instances, open up the application-code/nginx.conf file from the repo we downloaded. Scroll down to line 58 and replace [INTERNAL-LOADBALANCER-DNS] with your internal load balancer’s DNS entry. You can find this by navigating to your internal load balancer's details page.
+
+- <img width="1164" height="770" alt="Screenshot 2026-03-03 145024" src="https://github.com/user-attachments/assets/041deffd-1017-4949-b52c-d95c3fe0a2c9" />
+
+- Then, upload this file and the application-code/web-tier folder to the s3 bucket you created for this lab.
+
+- Web Instance Deployment
+
+- Set the Name and Tag. Select Amazon Linux for the OS and Amazon Linux 2 AMI (HVM) - Kernel 5.10 for the AMI. For Instance Type, select t2.micro. (Select Proceed without a key pair.) For Network settings, click Edit.
+
+- Select a VPC and a subnet. For Subnet, select Private-App-Subnet-AZ-1. For Security Group, select PrivateInstanceSG, which you created in the previous step. For Auto-assign public IP, select Disable. click Advanced details.
+
+- In the IAM instance profile field, select the IAM Role you created in the previous step. (In our example, we created the EC2andS3Role.) Finally, click Launch instance to create the instance.
+
+## Connect to Instance
+
+```bash
+sudo -su ec2-user 
+```
+
+```bash
+ping 8.8.8.8
+```
+
+

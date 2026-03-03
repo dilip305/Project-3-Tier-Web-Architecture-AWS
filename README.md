@@ -373,4 +373,29 @@ curl http://localhost:4000/transaction
 
 
 - Your app layer is fully configured and ready to go.
-  
+
+
+### $\color{blue} \textbf{ Internal Load Balancing and \textbf Auto Scaling }$
+
+## Create an AMI of our App Tier
+
+-  Select the app tier instance we created and under Actions select Image and templates. Click Create Image.
+
+- Give the image a name and description and then click Create image.
+
+## Target Group
+
+- While the AMI is being created, we can go ahead and create our target group to use with the load balancer
+
+- The purpose of forming this target group is to use with our load blancer so it may balance traffic across our private app tier instances. Select Instances as the target type and give it a name.
+
+- Then, set the protocol to HTTP and the port to 4000. Remember that this is the port our Node.ja app is running on. Select the VPC we've been using thus far, and then change the health check path to be /health. This is the health check endpoint of our app
+
+- We are NOT going to register any targets for now, so just skip that step and create the target group.
+
+  <img width="1920" height="1080" alt="Screenshot (167)" src="https://github.com/user-attachments/assets/7b7adbc0-cf1d-4beb-9835-fa4c4ad9eb4c" />
+
+- Create a Launch Template
+- Configure Autoscaling
+- Deploy Internal Load Balancer
+

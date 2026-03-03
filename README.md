@@ -585,7 +585,9 @@ sudo chkconfig nginx on
 
 -  You should now have your external load balancer and autoscaling group configured correctly. You should see the autoscaling group spinning up 2 new web tier instances. If you wanted to test if this is working correctly, you can delete one of your new instances manually and wait to see if a new instance is booted up to replace it. To test if your entire architecture is working, navigate to your external facing loadbalancer, and plug in the DNS name into your browser.
 
-<img width="1920" height="1080" alt="Screenshot (175)" src="https://github.com/user-attachments/assets/71929ec4-6ca2-4a14-900d-fde08c4ba8e4" />
+<img width="1920" height="965" alt="Screenshot (175)" src="https://github.com/user-attachments/assets/c69550d3-6489-4b6e-8b38-05cc1b84f8e0" />
+
 <img width="1920" height="968" alt="Screenshot (176)" src="https://github.com/user-attachments/assets/237fb31b-3354-4dcf-8539-9d490cecf996" />
 
+## Congrats! You’ve Implemented a 3 Tier Web Architecture!
 
